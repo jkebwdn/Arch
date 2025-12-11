@@ -1,0 +1,90 @@
+{
+  "position": "top-right",
+  "control-center-position": "top-right",
+  "layer": "overlay",
+  "control-center-layer": "top",
+  "css": "~/.config/swaync/style.css",
+  "control-center-width": 380,
+  "fit-to-screen": true,
+  "timeout": 5000,
+  "notification-window-width": 380,
+  "widgets": [
+    "title#Greeting",
+    "buttons-grid#QuickSettings",
+    "volume",
+    "backlight",
+    "title#Notifications",
+    "notifications",
+    "mpris"
+  ],
+  "widget-config": {
+    "title#Greeting": {
+      "text": "Good Afternoon, jkebwdn\nThursday 11 December\nWeather: Partly cloudy",
+      "use-markup": false
+    },
+    "buttons-grid#QuickSettings": {
+      "buttons-per-row": 4,
+      "actions": [
+        {
+          "label": "Wi-Fi",
+          "command": "nmcli radio wifi off || nmcli radio wifi on",
+          "type": "normal"
+        },
+        {
+          "label": "Night Mode",
+          "command": "hyprctl keyword decoration:screen_shader ~/.config/hypr/shaders/night.glsl || hyprctl keyword decoration:screen_shader ''",
+          "type": "normal"
+        },
+        {
+          "label": "DND",
+          "command": "swaync-client --toggle-dnd",
+          "type": "toggle"
+        },
+        {
+          "label": "Screenshot",
+          "command": "hyprshot -m region",
+          "type": "normal"
+        },
+        {
+          "label": "Bluetooth",
+          "command": "~/.config/hypr/scripts/bluetooth-menu.sh",
+          "type": "normal"
+        },
+        {
+          "label": "Suspend",
+          "command": "systemctl suspend",
+          "type": "normal"
+        },
+        {
+          "label": "Hibernate",
+          "command": "systemctl hibernate",
+          "type": "normal"
+        },
+        {
+          "label": "Power Off",
+          "command": "systemctl poweroff",
+          "type": "normal"
+        }
+      ]
+    },
+    "volume": {
+      "label": "Volume",
+      "show-per-app": false
+    },
+    "backlight": {
+      "label": "Brightness"
+    },
+    "title#Notifications": {
+      "text": "Notifications",
+      "clear-all-button": true,
+      "button-text": "Clear All"
+    },
+    "notifications": {
+      "vexpand": true
+    },
+    "mpris": {
+      "autohide": false,
+      "show-album-art": "when-available"
+    }
+  }
+}
