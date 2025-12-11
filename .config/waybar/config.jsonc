@@ -1,0 +1,67 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 34,
+  "margin-top": 8,
+  "margin-bottom": 0,
+  "margin-left": 20,
+  "margin-right": 20,
+
+  "modules-left":  ["clock#time", "clock#date"],
+  "modules-center": ["hyprland/workspaces"],
+  "modules-right": ["network", "pulseaudio", "battery", "tray", "custom/menu"],
+
+  "clock#time": { "format": "{:%H:%M}", "interval": 1, "tooltip": false },
+  "clock#date": { "format": "{:%d/%m/%y}", "interval": 5, "tooltip": false },
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "hyprctl dispatch workspace {name}",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "active-only": false,
+    "all-outputs": true,
+    "enable-bar-scroll": false,
+    "sort-by-number": true
+  },
+
+  "network": {
+    "tooltip": true,
+    "interval": 3,
+    "format-wifi": "{icon}",
+    "format-icons": ["","","","",""],
+    "format-ethernet": "󰈀",
+    "format-linked": "󰈀",
+    "format-disconnected": "󰤭",
+    "on-click": "~/.config/wofi/wifi-menu.sh",
+    "on-click-right": "nm-connection-editor"
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟 {volume}%",
+    "format-icons": { "headphones": ["󰋋"], "default": ["󰕿","",""] },
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+  },
+
+  "battery": {
+    "states": { "warning": 0.25, "critical": 0.12 },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-icons": ["󰁺","󰁻","󰁼","󰁽","󰁾","󰁿","󰂀","󰂁","󰂂","󰁹"],
+    "interval": 15
+  },
+
+  "tray": { "icon-size": 16, "spacing": 6 },
+
+  "custom/menu": {
+    "format": "",
+    "tooltip": "Control Center",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw"
+  }
+}
+
