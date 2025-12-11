@@ -1,13 +1,18 @@
+
 {
   "position": "top-right",
   "control-center-position": "top-right",
   "layer": "overlay",
   "control-center-layer": "top",
   "css": "~/.config/swaync/style.css",
-  "control-center-width": 380,
+  "control-center-width": 420,
   "fit-to-screen": true,
+  "control-center-margin-top": 18,
+  "control-center-margin-bottom": 18,
+  "control-center-margin-right": 18,
+  "control-center-margin-left": 0,
   "timeout": 5000,
-  "notification-window-width": 380,
+  "notification-window-width": 420,
   "widgets": [
     "title#Greeting",
     "buttons-grid#QuickSettings",
@@ -26,42 +31,42 @@
       "buttons-per-row": 4,
       "actions": [
         {
-          "label": "Wi-Fi",
+          "label": "",
           "command": "nmcli radio wifi off || nmcli radio wifi on",
           "type": "normal"
         },
         {
-          "label": "Night Mode",
+          "label": "",
           "command": "hyprctl keyword decoration:screen_shader ~/.config/hypr/shaders/night.glsl || hyprctl keyword decoration:screen_shader ''",
           "type": "normal"
         },
         {
-          "label": "DND",
+          "label": "",
           "command": "swaync-client --toggle-dnd",
           "type": "toggle"
         },
         {
-          "label": "Screenshot",
+          "label": "",
           "command": "hyprshot -m region",
           "type": "normal"
         },
         {
-          "label": "Bluetooth",
+          "label": "",
           "command": "~/.config/hypr/scripts/bluetooth-menu.sh",
           "type": "normal"
         },
         {
-          "label": "Suspend",
+          "label": "",
           "command": "systemctl suspend",
           "type": "normal"
         },
         {
-          "label": "Hibernate",
+          "label": "",
           "command": "systemctl hibernate",
           "type": "normal"
         },
         {
-          "label": "Power Off",
+          "label": "",
           "command": "systemctl poweroff",
           "type": "normal"
         }
@@ -77,7 +82,8 @@
     "title#Notifications": {
       "text": "Notifications",
       "clear-all-button": true,
-      "button-text": "Clear All"
+      "button-text": "Clear All",
+      "use-markup": false
     },
     "notifications": {
       "vexpand": true
