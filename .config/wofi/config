@@ -1,0 +1,23 @@
+# ── Launcher behaviour ─────────────────────────────────────────────
+show=drun
+insensitive=true
+matching=fuzzy
+allow_images=true
+image_size=24
+no_actions=true
+allow_markup=true
+gtk_dark=true
+prompt=
+term=alacritty
+
+# ── Layout ────────────────────────────────────────────────────────
+location=center
+yoffset=18
+xoffset=20
+width=480          # was 900; narrower to match the new glass panel
+height=520
+columns=1          # was 2; single column like your mockup
+lines=6
+
+# Style: use absolute path (no ~), so Wofi always finds it
+style=/home/jkebwdn/.config/wofi/style.css
