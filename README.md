@@ -1,2 +1,9 @@
 # Arch
-Arch Rice
+
+Dot Files / Backup
+
+Arch 
+Hyprland
+Waybar
+Wofi
+SwayNC
