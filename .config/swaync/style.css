@@ -1,0 +1,397 @@
+/* ────────────────────────────────────────────────────────────────────────────
+   SwayNotificationCenter — Catppuccin Mocha (polished, compact, GTK-safe)
+   Owner: jkebwdn
+   Notes:
+   • Control Center and Toasts are styled separately (no shared window rules).
+   • Floating notifications container controls screen-edge offsets.
+   • Literal \n lines in greeting (use-markup:false) are respected via pre-line.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* ========== 0) Base ========================================================== */
+* {
+  font-family: "JetBrainsMono Nerd Font","Noto Sans",sans-serif;
+}
+
+/* ========== 1) Palette (Catppuccin Mocha) =================================== */
+@define-color text      #cdd6f4;
+@define-color subtext0  #a6adc8;
+@define-color surface0  #313244;
+@define-color surface1  #45475a;
+@define-color mantle    #181825;
+@define-color crust     #11111b;
+/* Accents */
+@define-color blue      #89b4fa;
+@define-color peach     #fab387;
+@define-color lavender  #b4befe;
+@define-color green     #a6e3a1;
+@define-color teal      #94e2d5;
+@define-color yellow    #f9e2af;
+@define-color mauve     #cba6f7;
+@define-color red       #f38ba8;
+
+/* ========== 2) Windows =======================================================
+   IMPORTANT:
+   • Style ONLY the Control Center container.
+   • Keep the notification (toast) window transparent.
+   --------------------------------------------------------------------------- */
+
+/* 2.1 Control Center window (glassy base) */
+.control-center {
+  background: alpha(@mantle, 0.80);
+  color: @text;
+  border: 8px solid alpha(@surface1, 0.25);
+  border-radius: 18px;
+  padding: 10px;
+}
+
+/* 2.2 Toast popup window — transparent, no shared panel styles */
+window#notification,
+window#notification .notification-window {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* ========== 3) Greeting chip (title widget) =================================
+   Layout: text (left) + avatar (right). 3 lines via \n from your script.
+   --------------------------------------------------------------------------- */
+.control-center .widget-title#Greeting,
+.control-center .widget-title:first-child {
+  background: alpha(@surface0, 0.45);
+  border: 6px solid alpha(@surface1, 0.10);
+  border-radius: 14px;
+  min-height: 64px;
+  min-width: 40px;
+  /* Reserve space for avatar on the RIGHT */
+  padding: 8px 68px 8px 14px;   /* top | right | bottom | left */
+  color: @text;
+  position: relative;
+  /* Avatar image (right side) */
+  background-image: url("file:///home/jkebwdn/Downloads/avatarrounded.png");
+  background-repeat: no-repeat;
+  background-size: 52px 52px;
+  background-position: 95%;   /* ~12px from right edge */
+}
+
+/* Compact three-line text inside the greeting chip */
+.control-center .widget-title#Greeting label,
+.control-center .widget-title:first-child label {
+  display: block;
+  max-width: calc(100% - 78px);  /* clear of avatar area */
+  white-space: pre-line;          /* honors \n from script */
+  font-size: 7.3pt;
+  line-height: 1.18;
+  letter-spacing: .1px;
+  color: @text;
+  text-align: left;
+}
+
+/* Slight emphasis on the first line */
+.control-center .widget-title#Greeting label:first-child,
+.control-center .widget-title:first-child label:first-child {
+  font-weight: 700;
+  margin-bottom: 1px;
+}
+
+/* Hide the unused title button cleanly (GTK-safe) */
+.control-center .widget-title#Greeting button,
+.control-center .widget-title:first-child button {
+  opacity: 0; margin: 0; padding: 0; min-width: 0; min-height: 0; border-width: 0;
+}
+
+/* Section titles + Clear All button */
+.widget-title { font-size: 12pt; font-weight: 700; letter-spacing: .3px; }
+.widget-title button {
+  font-size: 10pt;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: alpha(@surface0, 0.6);
+  border: 1px solid alpha(@surface1, 0.5);
+}
+
+/* ========== 4) Quick Settings (2×4 grid) ==================================== */
+/* Generic button widgets (fallback / other grids) */
+.widget-buttons,
+.widget-buttons-grid {
+  padding: 10px 6px;
+}
+
+.widget-buttons flowboxchild,
+.widget-buttons-grid flowboxchild {
+  margin: 8px;
+  min-width: 0;
+}
+
+/* Specific layout tweaks for our QuickSettings grid */
+.control-center .widget-buttons-grid.QuickSettings {
+  padding: 8px 4px 2px;
+}
+
+.control-center .widget-buttons-grid.QuickSettings > flowbox > flowboxchild {
+  margin: 6px;
+}
+
+/* Compact chip */
+.widget-buttons flowboxchild > button,
+.widget-buttons-grid flowboxchild > button {
+  min-width: 38px;
+  min-height: 38px;
+  padding: 6px 6px;
+  border-radius: 10px;
+  border: none;
+  box-shadow: none;
+  transition: transform .12s ease, box-shadow .18s ease, background .18s ease, filter .12s ease;
+}
+
+/* Solid Catppuccin backgrounds (first 8 chips) */
+.widget-buttons > flowbox > flowboxchild:nth-child(1) > button,
+.widget-buttons-grid > flowbox > flowboxchild:nth-child(1) > button { background: @blue; }
+.widget-buttons > flowbox > flowboxchild:nth-child(2) > button,
+.widget-buttons-grid > flowbox > flowboxchild:nth-child(2) > button { background: @peach; }
+.widget-buttons > flowbox > flowboxchild:nth-child(3) > button,
+.widget-buttons-grid > flowbox > flowboxchild:nth-child(3) > button { background: @lavender; }
+.widget-buttons > flowbox > flowboxchild:nth-child(4) > button,
+.widget-buttons-grid > flowbox > flowboxchild:nth-child(4) > button { background: @green; }
+.widget-buttons > flowbox > flowboxchild:nth-child(5) > button,
+.widget-buttons-grid > flowbox > flowboxchild:nth-child(5) > button { background: @teal; }
+.widget-buttons > flowbox > flowboxchild:nth-child(6) > button,
+.widget-buttons-grid > flowbox > flowboxchild:nth-child(6) > button { background: @yellow; }
+.widget-buttons > flowbox > flowboxchild:nth-child(7) > button,
+.widget-buttons-grid > flowbox > flowboxchild:nth-child(7) > button { background: @mauve; }
+.widget-buttons > flowbox > flowboxchild:nth-child(8) > button,
+.widget-buttons-grid > flowbox > flowboxchild:nth-child(8) > button { background: @red; }
+
+/* Glyph dim/bright */
+.widget-buttons flowboxchild > button > label,
+.widget-buttons-grid flowboxchild > button > label {
+  color: alpha(@crust, 0.40);   /* OFF dimmer */
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1;
+  transition: color .16s ease;
+}
+.widget-buttons flowboxchild > button:hover > label,
+.widget-buttons-grid flowboxchild > button:hover > label {
+  color: alpha(@crust, 0.75);
+}
+.widget-buttons flowboxchild > button:checked > label,
+.widget-buttons flowboxchild > button.active   > label,
+.widget-buttons flowboxchild > button.on       > label,
+.widget-buttons-grid flowboxchild > button:checked > label,
+.widget-buttons-grid flowboxchild > button.active   > label,
+.widget-buttons-grid flowboxchild > button.on       > label {
+  color: @crust;
+}
+
+/* Lift / press */
+.widget-buttons flowboxchild > button:hover,
+.widget-buttons-grid flowboxchild > button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px -6px rgba(0,0,0,.35);
+}
+.widget-buttons flowboxchild > button:active,
+.widget-buttons-grid flowboxchild > button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px -4px rgba(0,0,0,.35) inset;
+}
+
+/* ========== 5) Sliders ======================================================= */
+.control-center .widget-volume,
+.control-center .widget-backlight {
+  padding: 8px 10px;
+}
+
+scale trough {
+  background: alpha(@surface1, 0.95);
+  border-radius: 999px;
+  min-height: 10px;
+}
+scale highlight,
+scale slider {
+  background: @blue;
+}
+scale slider {
+  min-width: 16px;
+  min-height: 16px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px rgba(137,180,250,.25);
+}
+
+/* ========== 6) Control Center — Notifications list (cards) ================== */
+.widget-notifications,
+.widget-notifications * {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.control-center .widget-notifications listview row > box,
+.control-center .widget-notifications .notification-row > box {
+  background: rgba(49,50,68,.92);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 10px 6px;
+  box-shadow: 0 8px 18px -12px rgba(0,0,0,.6);
+}
+.control-center .widget-notifications listview row > box:hover,
+.control-center .widget-notifications .notification-row > box:hover {
+  background: rgba(69,71,90,.97);
+}
+
+.widget-notifications .summary,
+.widget-notifications .title {
+  font-size: 12pt;
+  font-weight: 800;
+  letter-spacing: .25px;
+  color: @text;
+  margin: 0 0 4px 0;
+}
+.widget-notifications .time,
+.widget-notifications .app-name {
+  font-size: 9.5pt;
+  color: alpha(@subtext0, .85);
+  margin: 0 0 6px 0;
+}
+.widget-notifications .body,
+.widget-notifications .text {
+  font-size: 10pt;
+  line-height: 1.25;
+  color: @subtext0;
+}
+.widget-notifications image,
+.widget-notifications .icon,
+.widget-notifications .image {
+  border-radius: 10px;
+}
+
+/* ========== 7) MPRIS ========================================================= */
+.widget-mpris {
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: alpha(@surface0, .50);
+}
+
+/* ========== 8) Scrollbar ===================================================== */
+scrollbar slider {
+  background: rgba(88,91,112,.65);
+  border-radius: 999px;
+}
+
+/* ========== 9) Toast Popups (Floating Notifications) =========================
+   • Offset from screen edges is controlled by `.floating-notifications`.
+   • Cards match the Control Center glass style, with thicker borders.
+   --------------------------------------------------------------------------- */
+
+/* 9.1 Edge offset for all toasts (top | right | bottom | left) */
+.floating-notifications {
+  margin: 18px 14px 12px 12px;  /* tweak the 2nd value to increase right-side gap */
+  padding: 0;                   /* avoid double padding */
+}
+
+/* 9.2 Spacing between stacked toasts */
+.floating-notifications .notification-row {
+  margin-bottom: 12px;
+}
+
+/* 9.3 Card (generic selectors for broad compatibility) */
+#notification,
+.notification {
+  background: alpha(@mantle, 0.88);
+  color: @text;
+  border: 4px solid alpha(@surface1, 0.75);   /* thicker border (your preference) */
+  border-radius: 16px;
+  padding: 10px 12px;
+  min-width: 360px;
+  /* softer, diffuse shadow — no harsh plate */
+  box-shadow:
+    0 8px 18px -16px rgba(0,0,0,.55),
+    0 22px 46px -22px rgba(0,0,0,.45);
+  backdrop-filter: blur(8px);
+}
+
+/* 9.4 Icon / image */
+#notification .app-icon,
+#notification .image,
+.notification .app-icon,
+.notification .image {
+  background: alpha(@surface0, 0.70);
+  border-radius: 12px;
+  margin-right: 10px;
+}
+
+/* 9.5 Typography — smaller title/body */
+#notification .summary,
+.notification .summary {
+  color: @text;
+  font-weight: 700;
+  font-size: 10.5pt;                 /* smaller title */
+  letter-spacing: .2px;
+  margin-bottom: 2px;
+}
+#notification .time,
+#notification .app-name,
+.notification .time,
+.notification .app-name {
+  color: alpha(@subtext0, .85);
+  font-size: 8.8pt;                   /* smaller meta */
+}
+#notification .body,
+.notification .body {
+  color: @subtext0;
+  font-size: 9.2pt;                   /* smaller body */
+  line-height: 1.22;
+  margin-top: 1px;
+}
+
+/* 9.6 Actions & Close */
+#notification .actions .button,
+.notification .actions .button {
+  background: alpha(@surface0, 0.90);
+  color: @text;
+  border: 1px solid alpha(@surface1, 0.55);
+  border-radius: 12px;
+  padding: 5px 9px;
+  margin-top: 8px;
+}
+#notification .actions .button:hover,
+.notification .actions .button:hover {
+  background: @surface1;
+}
+#notification .close-button,
+.notification .close-button {
+  background: transparent;
+  color: alpha(@subtext0, .9);
+  border-radius: 999px;
+}
+#notification .close-button:hover,
+.notification .close-button:hover {
+  background: alpha(@surface0, 0.70);
+  color: @text;
+}
+
+/* 9.7 Progress & Urgency accents */
+#notification progress,
+#notification trough,
+.notification progress,
+.notification trough {
+  background: alpha(@surface1, 0.95);
+  border-radius: 999px;
+  min-height: 6px;
+}
+#notification progress,
+.notification progress {
+  background: @blue;
+}
+
+#notification.low,
+.notification.low       { border-color: alpha(@surface1, 0.55); }
+#notification.normal,
+.notification.normal    { border-color: alpha(@surface1, 0.75); }
+#notification.critical,
+.notification.critical  {
+  border-color: @red;
+  box-shadow:
+    0 10px 26px -18px rgba(243,139,168,.35),
+    0 28px 70px -26px rgba(243,139,168,.28);
+}
+
